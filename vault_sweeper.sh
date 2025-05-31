@@ -75,7 +75,6 @@ log_metadata() {
     local invalid=()
     # Nameref in bash 4.3+ https://stackoverflow.com/questions/10582763/how-to-return-an-array-in-bash-without-using-globals
     check_permissions "$file" perm_warnings
-    # if $file is not a directory, check if it is an env file
 
     perm_octal=$(stat -c "%a" "$file")
     [[ ${#perm_octal} -eq 3 ]] && perm_octal="0$perm_octal"
@@ -144,8 +143,9 @@ validate_env_vars() {
         fi
     done < "$1"
 
+    local tmp_file=$(mktemp)
     # Remove invalid lines from the original file
-    sudo grep -vxFf <(printf "%s\n" "${valid[@]}") "$input_file" > "$tmp_file" && sudo mv "$tmp_file" "$input_file"
+    sudo grep -vxFf <(printf "%s\n" "${invalid[@]}") "$1" > "$tmp_file" && sudo mv "$tmp_file" "$1"
 
     # Output sanitized environment
     printf "%s\n" "${valid[@]}" >> "$OUT_FILE"
@@ -175,8 +175,8 @@ scan_directory() {
 
 scan_directory
 # ask if user wants to lock sanitized env file
-read -p "Do you want to lock the sanitized env file ($OUT_FILE)? (Y/n) " lock_choice
-if [[ "$lock_choice" == [Yy]|^$ ]]; then
+read -rp "Do you want to lock the sanitized env file ($OUT_FILE)? (Y/n) " lock_choice
+if [[ -z "$lock_choice" || "$lock_choice" =~ ^[Yy]$ ]]; then
     sudo chmod 600 "$OUT_FILE" # chattr +i is not available on every filesystem, only ext4
     echo "Sanitized env file locked."
 fi
