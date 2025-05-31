@@ -49,9 +49,9 @@ check_permissions() {
     # SUID SGID Sticky -> 4 2 1
     if [[ ${#perm_octal} -ne 3 ]]; then
         special="${perm_octal:0:1}"
-        [[ $((special & 4)) -ne 0 ]] && perm_warnings+=("Warning: $file has SUID bit set")
-        [[ $((special & 2)) -ne 0 ]] && perm_warnings+=("Warning: $file has SGID bit set")
-        [[ $((special & 1)) -ne 0 ]] && perm_warnings+=("Warning: $file has sticky bit set")
+        [[ $((special & 4)) -ne 0 ]] && perm_warnings+=("SUID bit set")
+        [[ $((special & 2)) -ne 0 ]] && perm_warnings+=("SGID bit set")
+        [[ $((special & 1)) -ne 0 ]] && perm_warnings+=("Sticky bit set")
     fi
     [[ ${#perm_octal} -eq 3 ]] && perm_octal="0$perm_octal" # Ensure 4 digits for octal permissions
 
@@ -60,14 +60,18 @@ check_permissions() {
     others=${perm_octal:3:1}
 
     # Check group permissions
-    # [[ $((group & 4)) -ne 0 ]] && perm_warnings+=("Warning: $file is group-readable ($perm_octal)")
-    [[ $((group & 2)) -ne 0 ]] && perm_warnings+=("Warning: $file is group-writable ($perm_octal)")
-    [[ $((group & 1)) -ne 0 ]] && perm_warnings+=("Warning: $file is group-executable ($perm_octal)")
+    [[ $((group & 2)) -ne 0 ]] && perm_warnings+=("Group writable")
+    [[ $((group & 1)) -ne 0 ]] && perm_warnings+=("Group executable")
 
     # Check others (world) permissions
-    [[ $((others & 4)) -ne 0 ]] && perm_warnings+=("Warning: $file is world-readable ($perm_octal)")
-    [[ $((others & 2)) -ne 0 ]] && perm_warnings+=("Warning: $file is world-writable ($perm_octal)")
-    [[ $((others & 1)) -ne 0 ]] && perm_warnings+=("Warning: $file is world-executable ($perm_octal)")
+    [[ $((others & 4)) -ne 0 ]] && perm_warnings+=("World readable")
+    [[ $((others & 2)) -ne 0 ]] && perm_warnings+=("World writable")
+    [[ $((others & 1)) -ne 0 ]] && perm_warnings+=("World executable")
+
+    # Coalesce all warnings into a single string if any exist
+    if [ "${#perm_warnings[@]}" -gt 0 ]; then
+        perm_warnings=("Warning: $file (${perm_octal}):"$'\n    '"$(printf "%s, " "${perm_warnings[@]}" | sed 's/, $//')")
+    fi
 }
 
 log_metadata() {
@@ -95,7 +99,7 @@ log_metadata() {
             echo "Valid Lines: ${#valid[@]}"
             echo "Invalid Lines: ${#invalid[@]}"
             echo "Rejected Lines:"
-            printf "  - %s\n" "${invalid[@]}"
+            [[ ${#invalid[@]} -gt 0 ]] && printf "  - %s\n" "${invalid[@]}"
         fi
         echo "---"
     } >> "$METADATA_LOG"
@@ -104,6 +108,8 @@ log_metadata() {
 
 validate_env_vars() {
     local file="$1"
+    valid=()
+    invalid=()
     while IFS= read -r line || [ -n "$line" ]; do
         # Skip empty lines and comments
         [[ -z "$line" || "$line" =~ ^# ]] && valid+=("$line") && continue
@@ -204,8 +210,8 @@ CRON_SCAN_SCRIPT="/usr/local/bin/vault_cron_scan.sh"
 ALERT_USER="$MAINTAINER"
 
 # Prompt user before setting up cronjob
-read -rp "Do you want to set up a cronjob to scan the vault every 6 hours? (Y/n) > " cron_choice
-if [[ -z "$cron_choice" || "$cron_choice" =~ ^[Yy]$ ]]; then
+read -rp "Do you want to set up a cronjob to scan the vault every 6 hours? (y/N) > " cron_choice
+if [[ "$cron_choice" =~ ^[Yy]$ ]]; then
     # Heredoc 
     cat <<EOF | sudo tee "$CRON_SCAN_SCRIPT" > /dev/null
 #!/bin/bash
