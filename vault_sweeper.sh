@@ -165,7 +165,7 @@ validate_env_vars() {
     # Output sanitized environment - in single file as directed by Aakash
     echo "## $file START ##" >> "$OUT_FILE"
     printf "%s\n" "${valid[@]}" >> "$OUT_FILE"
-    echo "## $file END ##" >> "$OUT_FILE"
+    echo "## $file END   ##" >> "$OUT_FILE"
 
     echo "Sanitized environment variables from $file written to $OUT_FILE"
 }

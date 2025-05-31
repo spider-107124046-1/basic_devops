@@ -1,0 +1,520 @@
+Vault Sweeper started at Sunday 01 June 2025 03:30:09 AM IST
+File: example_monorepo
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:09.612798300 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/service1
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:09.608286181 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/service1 (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/service1/.env
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:09.757289725 +0530
+Permissions: 0600
+Access Control List:
+user::rw-
+group::---
+other::---
+Extended Attributes:
+No extended attributes
+Valid Lines: 4
+Invalid Lines: 0
+Rejected Lines:
+---
+File: example_monorepo/service2
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:09.609552130 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/service2 (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/service2/.env.local
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:09.804290843 +0530
+Permissions: 0600
+Access Control List:
+user::rw-
+group::---
+other::---
+Extended Attributes:
+No extended attributes
+Valid Lines: 3
+Invalid Lines: 8
+Rejected Lines:
+  - PRIVATE_KEY=-----BEGIN RSA PRIVATE KEY-----
+  -   something secret here
+  - -----END RSA PRIVATE KEY-----
+  - PASSWORD="my\"password"
+  - INVALID_LINE no_equals_here
+  - USER NAME=admin
+  - LD_PRELOAD=/malicious/lib.so
+  - SECRET_TOKEN='12345'
+---
+File: example_monorepo/scripts
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:09.617286395 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/scripts (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/scripts/deploy.sh
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:09.614286324 +0530
+Permissions: 0777
+Access Control List:
+user::rwx
+group::rwx
+other::rwx
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/scripts/deploy.sh (0777):
+    Group writable, Group executable, World readable, World writable, World executable
+---
+File: example_monorepo/scripts/setup.sh
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:09.616286371 +0530
+Permissions: 2755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/scripts/setup.sh (2755):
+    SGID bit set, Group executable, World readable, World executable
+---
+File: example_monorepo/scripts/hack.sh
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:09.618286419 +0530
+Permissions: 4777
+Access Control List:
+user::rwx
+group::rwx
+other::rwx
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/scripts/hack.sh (4777):
+    SUID bit set, Group writable, Group executable, World readable, World writable, World executable
+---
+File: example_monorepo/misc
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:09.611586827 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/misc (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/misc/config.env
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:09.939294054 +0530
+Permissions: 0600
+Access Control List:
+user::rw-
+group::---
+other::---
+Extended Attributes:
+No extended attributes
+Valid Lines: 4
+Invalid Lines: 3
+Rejected Lines:
+  - export HOME=/home/user
+  - VAR_WITH_QUOTES="Unbalanced"quotes"
+  - INVALID@KEY=value
+---
+File: example_monorepo/misc/binary.bin
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:09.612798300 +0530
+Permissions: 0777
+Access Control List:
+user::rwx
+group::rwx
+other::rwx
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/misc/binary.bin (0777):
+    Group writable, Group executable, World readable, World writable, World executable
+---
+File: example_monorepo/example_testcases
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:09.620286466 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/example_testcases (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/example_testcases/.env
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:10.014295836 +0530
+Permissions: 0600
+Access Control List:
+user::rw-
+group::---
+other::---
+Extended Attributes:
+No extended attributes
+Valid Lines: 10
+Invalid Lines: 23
+Rejected Lines:
+  - SECRET_KEY="s3cr3t_key!"
+  - 1INVALID=foo
+  - INVALID-KEY=value
+  - INVALID KEY=value
+  - KEY WITH SPACE=value
+  - =novalue
+  - JUST_KEY
+  - OVERBALANCED="value"value
+  - UNBALANCED="value
+  - PASSWORD=
+  - TOKEN="my token"
+  - PATH=/tmp/malicious
+  - LD_PRELOAD=/evil/lib.so
+  - SSH_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----..."
+  - PORT="3000"
+  - DEBUG="false"
+  - ENABLED="yes"
+  - MAX_CONN="'100'"
+  - DB_PORT="'5432'"
+  - EMPTY_STRING=""
+  - TRUTHY_STRING="'true'"
+  - COMMAND="'rm -rf /'"
+  - USERNAME="'admin'"
+---
+File: example_monorepo/pelican
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:09.624286561 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/pelican (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/pelican/.env
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:10.077297325 +0530
+Permissions: 0600
+Access Control List:
+user::rw-
+group::---
+other::---
+Extended Attributes:
+No extended attributes
+Valid Lines: 55
+Invalid Lines: 4
+Rejected Lines:
+  - APP_URL="http://10082006.xyz:4000"
+  - DB_PASSWORD=pelican#DB-SP1D3R
+  - REDIS_PASSWORD=null
+  - MAIL_FROM_ADDRESS="hello@example.com"
+---
+File: example_monorepo/pelican/.env.example
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:10.106298010 +0530
+Permissions: 0600
+Access Control List:
+user::rw-
+group::---
+other::---
+Extended Attributes:
+No extended attributes
+Valid Lines: 6
+Invalid Lines: 0
+Rejected Lines:
+---
+File: example_monorepo/README.md
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:30:09.613286300 +0530
+Permissions: 0644
+Access Control List:
+user::rw-
+group::r--
+other::r--
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/README.md (0644):
+    World readable
+---
+Vault Sweeper started at Sunday 01 June 2025 03:42:17 AM IST
+File: example_monorepo
+User: UID=1000 (ilam), GID=1000 (ilam)
+Last modified: by ilam on 2025-06-01 03:30:09.612798300 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/service1
+User: UID=1000 (ilam), GID=1000 (ilam)
+Last modified: by ilam on 2025-06-01 03:30:09.760289796 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/service1 (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/service1/.env
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:42:17.209833433 +0530
+Permissions: 0600
+Access Control List:
+user::rw-
+group::---
+other::---
+Extended Attributes:
+No extended attributes
+Valid Lines: 4
+Invalid Lines: 0
+Rejected Lines:
+---
+File: example_monorepo/service2
+User: UID=1000 (ilam), GID=1000 (ilam)
+Last modified: by ilam on 2025-06-01 03:30:09.806290890 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/service2 (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/service2/.env.local
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:42:17.230102749 +0530
+Permissions: 0600
+Access Control List:
+user::rw-
+group::---
+other::---
+Extended Attributes:
+No extended attributes
+Valid Lines: 3
+Invalid Lines: 0
+Rejected Lines:
+---
+File: example_monorepo/scripts
+User: UID=1000 (ilam), GID=1000 (ilam)
+Last modified: by ilam on 2025-06-01 03:30:09.617286395 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/scripts (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/scripts/deploy.sh
+User: UID=1000 (ilam), GID=1000 (ilam)
+Last modified: by ilam on 2025-06-01 03:30:09.614286324 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/scripts/deploy.sh (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/scripts/setup.sh
+User: UID=1000 (ilam), GID=1000 (ilam)
+Last modified: by ilam on 2025-06-01 03:30:09.616286371 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/scripts/setup.sh (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/scripts/hack.sh
+User: UID=1000 (ilam), GID=1000 (ilam)
+Last modified: by ilam on 2025-06-01 03:30:09.618286419 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/scripts/hack.sh (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/misc
+User: UID=1000 (ilam), GID=1000 (ilam)
+Last modified: by ilam on 2025-06-01 03:30:09.941294102 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/misc (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/misc/binary.bin
+User: UID=1000 (ilam), GID=1000 (ilam)
+Last modified: by ilam on 2025-06-01 03:30:09.612798300 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/misc/binary.bin (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/misc/config.env
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:42:17.386106492 +0530
+Permissions: 0600
+Access Control List:
+user::rw-
+group::---
+other::---
+Extended Attributes:
+No extended attributes
+Valid Lines: 4
+Invalid Lines: 0
+Rejected Lines:
+---
+File: example_monorepo/example_testcases
+User: UID=1000 (ilam), GID=1000 (ilam)
+Last modified: by ilam on 2025-06-01 03:30:10.015295859 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/example_testcases (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/example_testcases/.env
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:42:17.437107716 +0530
+Permissions: 0600
+Access Control List:
+user::rw-
+group::---
+other::---
+Extended Attributes:
+No extended attributes
+Valid Lines: 10
+Invalid Lines: 0
+Rejected Lines:
+---
+File: example_monorepo/pelican
+User: UID=1000 (ilam), GID=1000 (ilam)
+Last modified: by ilam on 2025-06-01 03:30:10.108298058 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/pelican (0755):
+    Group executable, World readable, World executable
+---
+File: example_monorepo/pelican/.env
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:42:17.485108868 +0530
+Permissions: 0600
+Access Control List:
+user::rw-
+group::---
+other::---
+Extended Attributes:
+No extended attributes
+Valid Lines: 55
+Invalid Lines: 0
+Rejected Lines:
+---
+File: example_monorepo/pelican/.env.example
+User: UID=0 (root), GID=0 (root)
+Last modified: by root on 2025-06-01 03:42:17.506109372 +0530
+Permissions: 0600
+Access Control List:
+user::rw-
+group::---
+other::---
+Extended Attributes:
+No extended attributes
+Valid Lines: 6
+Invalid Lines: 0
+Rejected Lines:
+---
+File: example_monorepo/README.md
+User: UID=1000 (ilam), GID=1000 (ilam)
+Last modified: by ilam on 2025-06-01 03:30:09.613286300 +0530
+Permissions: 0755
+Access Control List:
+user::rwx
+group::r-x
+other::r-x
+Extended Attributes:
+No extended attributes
+  - Warning: example_monorepo/README.md (0755):
+    Group executable, World readable, World executable
+---
