@@ -88,7 +88,7 @@ log_metadata() {
         echo "$(getfacl "$file" 2>/dev/null | grep -v '^#' | grep -v '^$' || echo 'No ACL set')"
         echo "Extended Attributes:"
         echo "$(getfattr -d "$file" 2>/dev/null | grep -v '^#' | grep -v '^$' || echo 'No extended attributes')"
-        printf "  - %s\n" "${perm_warnings[@]}"
+        [[ ${#perm_warnings[@]} -gt 0 ]] && printf "  - %s\n" "${perm_warnings[@]}"
 
         if [[ "$(basename "$item")" == *.env* ]]; then
             echo "Valid Lines: ${#valid[@]}"
@@ -134,9 +134,8 @@ validate_env_vars() {
                     invalid+=("$line")
                 fi
 
-            # danger, matches everything
-            # elif [[ "$value" =~ (^|[^\\])[\"\':space:] ]]; then
-            #     invalid+=("$line")
+            elif [[ "${value:0:1}" =~ [\"\'] ]]; then
+                invalid+=("$line")
 
             else
                 valid+=("$line")
@@ -156,8 +155,11 @@ validate_env_vars() {
     # Remove invalid lines from the original file
     grep -vxFf <(printf "%s\n" "${invalid[@]}") "$file" > "$tmp_file" && mv "$tmp_file" "$file"
 
-    # Output sanitized environment
+    # Output sanitized environment - in single file as directed by Aakash
+    echo "## $file START ##" >> "$OUT_FILE"
     printf "%s\n" "${valid[@]}" >> "$OUT_FILE"
+    echo "## $file END ##" >> "$OUT_FILE"
+
     echo "Sanitized environment variables from $file written to $OUT_FILE"
 }
 
