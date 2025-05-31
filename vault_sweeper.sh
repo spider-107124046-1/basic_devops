@@ -23,16 +23,17 @@ VAULT_DIR="vault"
 LOG_DIR="$VAULT_DIR/logs"
 METADATA_LOG="$LOG_DIR/metadata.log"
 OUT_FILE="$VAULT_DIR/.env.sanitized"
+MAINTAINER="maintainer"
 
 mkdir -p "$LOG_DIR" || { echo "Failed to create $LOG_DIR"; exit 1; }
 touch "$METADATA_LOG" || { echo "Failed to create $METADATA_LOG"; exit 1; }
 touch "$OUT_FILE" || { echo "Failed to create $OUT_FILE"; exit 1; }
 
-if ! id "maintainer" &>/dev/null; then
-    echo "Creating user 'maintainer'..."
-    sudo useradd -m maintainer
+if ! id "$MAINTAINER" &>/dev/null; then
+    echo "Creating user '$MAINTAINER'..."
+    sudo useradd -m "$MAINTAINER"
 else
-    echo "User 'maintainer' already exists."
+    echo "User '$MAINTAINER' already exists."
 fi
 
 echo "Vault Sweeper started at $(date)" | sudo tee -a "$METADATA_LOG"
@@ -187,7 +188,7 @@ scan_directory() {
 scan_directory
 
 # all 3 used even with -R to allow user to edit the variable manually without needing much change
-sudo chown -R maintainer:maintainer "$VAULT_DIR" "$LOG_DIR" "$METADATA_LOG" "$OUT_FILE"
+sudo chown -R "$MAINTAINER":"$MAINTAINER" "$VAULT_DIR" "$LOG_DIR" "$METADATA_LOG" "$OUT_FILE"
 sudo chmod -R 755 "$VAULT_DIR" "$LOG_DIR" "$METADATA_LOG" "$OUT_FILE"
 
 # ask if user wants to lock sanitized env file
@@ -195,4 +196,58 @@ read -rp "Do you want to lock the sanitized env file ($OUT_FILE)? (Y/n) > " lock
 if [[ -z "$lock_choice" || "$lock_choice" =~ ^[Yy]$ ]]; then
     sudo chmod 600 "$OUT_FILE" # chattr +i is not available on every filesystem, only ext4
     echo "Sanitized env file locked."
+fi
+
+# Step 4: Set up vault scan cronjob
+sudo cp "$0" /usr/local/bin/vault_sweeper.sh
+CRON_SCAN_SCRIPT="/usr/local/bin/vault_cron_scan.sh"
+ALERT_USER="$MAINTAINER"
+
+# Prompt user before setting up cronjob
+read -rp "Do you want to set up a cronjob to scan the vault every 6 hours? (Y/n) > " cron_choice
+if [[ -z "$cron_choice" || "$cron_choice" =~ ^[Yy]$ ]]; then
+    # Heredoc 
+    cat <<EOF | sudo tee "$CRON_SCAN_SCRIPT" > /dev/null
+#!/bin/bash
+
+INPUT_DIR="$(realpath "$INPUT_DIR")"
+VAULT_DIR="\$INPUT_DIR/../vault"
+METADATA_LOG="\$VAULT_DIR/logs/metadata.log"
+ALERT_USER="$ALERT_USER"
+ALERT_LOG="/tmp/vault_alert.log"
+TIMESTAMP=\$(date '+%Y-%m-%d %H:%M:%S')
+
+sudo /usr/local/bin/vault_sweeper.sh "\$INPUT_DIR"
+
+if grep -q '\- Warning:' "\$METADATA_LOG"; then
+    echo "ALERT: Warning(s) detected in \$METADATA_LOG during the Vault Sweeper scan. Please review." >> "\$ALERT_LOG"
+    if command -v mail >/dev/null 2>&1; then
+        echo "ALERT: Warning(s) detected in \$METADATA_LOG during the Vault Sweeper scan. Please review." | mail -s "Vault Alert" "\$ALERT_USER"
+    fi
+fi
+
+if grep -A 10 '^Rejected Lines:' "\$METADATA_LOG" | grep -q '  - '; then
+    echo "ALERT: Rejected environment lines found in \$METADATA_LOG and have been removed" >> "\$ALERT_LOG"
+    if command -v mail >/dev/null 2>&1; then
+        echo "Vault Sweeper has rejected some environment lines. Please review the log." | mail -s "Vault env sanitization" "\$ALERT_USER"
+    fi
+fi
+
+EOF
+
+    sudo chmod +x "$CRON_SCAN_SCRIPT"
+    echo "Vault cron scan script created at $CRON_SCAN_SCRIPT"
+
+    # Add cronjob that runs scan every 6 hours
+    CRON_ENTRY="0 */6 * * * $CRON_SCAN_SCRIPT"
+    CRONTAB_EXISTS=$(sudo crontab -l 2>/dev/null | grep -F "$CRON_SCAN_SCRIPT")
+
+    if [[ -z "$CRONTAB_EXISTS" ]]; then
+        (sudo crontab -l 2>/dev/null; echo "$CRON_ENTRY") | sudo crontab -
+        echo "Cronjob added to run vault scan every 6 hours."
+    else
+        echo "Cronjob already exists. Skipping re-addition."
+    fi
+else
+    echo "Skipping cronjob setup."
 fi
