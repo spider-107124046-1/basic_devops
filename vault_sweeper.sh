@@ -135,7 +135,7 @@ validate_env_vars() {
                 # because it didnt match multiple quote wrappers
                 elif [[ "$actual_value" =~ ^[\"\']+.*[\"\']+$ ]]; then
                     invalid+=("$line")
-                elif [[ "$actual_value" =~ [[:space:]#\$!\&*\'\"\`] ]]; then
+                elif [[ "$actual_value" =~ [[:space:]\#\$!\&*\'\"\`] ]]; then
                     valid+=("$line")
                 else
                     invalid+=("$line")
